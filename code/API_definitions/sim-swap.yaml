@@ -246,8 +246,6 @@ components:
             period within the provided age.
     PhoneNumber:
       $ref: "../common/CAMARA_common.yaml#/components/schemas/PhoneNumber"
-    ErrorInfo:
-      $ref: "../common/CAMARA_common.yaml#/components/schemas/ErrorInfo"
     CreateCheckSimSwap:
       type: object
       description: Definition of the data that must be provided in the request body for check operation
