@@ -231,7 +231,7 @@ components:
           type: integer
           format: int32
           minimum: 1
-          maximimum: 999
+          maximum: 999
           description: Timeframe in days for SIM card change supervision for the phone number. It could be valued in the response if the latest SIM swap occurred before this monitored period.
           example: 120
     CheckSimSwapInfo:
