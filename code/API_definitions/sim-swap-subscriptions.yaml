@@ -571,16 +571,6 @@ components:
         - org.camaraproject.sim-swap-subscriptions.v0.subscription-updated
         - org.camaraproject.sim-swap-subscriptions.v0.subscription-ended
 
-    ConnectedNetworkType:
-      type: string
-      description: Network Type is intended to provide insight to connected network's capabilities from standards perspective. Actual network capabilities may differ based on implementation and MUST be checked with the connected network provider.
-      enum:
-        - 2G
-        - 3G
-        - 4G
-        - 5G
-        - UNKNOWN
-
     EventSwapped:
       description: event structure for network type change
       allOf:
