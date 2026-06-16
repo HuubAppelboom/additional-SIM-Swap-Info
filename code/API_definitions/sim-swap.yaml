@@ -98,6 +98,11 @@ servers:
       apiRoot:
         default: http://localhost:9091
         description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
+tags:
+  - name: Retrieve SIM Swap Date
+    description: operation to retrieve latest SIM swap change date
+  - name: Check SIM Swap
+    description: operation to perform a sim swap check for a past period
 paths:
   /retrieve-date:
     post:
@@ -107,7 +112,7 @@ paths:
         - openId:
             - sim-swap
       tags:
-        - Retrieve SIM swap date
+        - Retrieve SIM Swap Date
       summary: Retrieve SIM swap date
       description: Get timestamp of last SIM swap event for a mobile user account provided with phone number.
       operationId: retrieveSimSwapDate
@@ -164,7 +169,7 @@ paths:
         - openId:
             - sim-swap
       tags:
-        - Check SIM swap
+        - Check SIM Swap
       summary: Check SIM swap
       description: Check if SIM swap has been performed during a past period
       operationId: checkSimSwap
@@ -224,6 +229,7 @@ components:
           description: Timestamp of latest SIM swap performed. It must follow [RFC 3339 (https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) and must have time zone.
         monitoredPeriod:
           type: integer
+          format: int32
           description: Timeframe in days for SIM card change supervision for the phone number. It could be valued in the response if the latest SIM swap occurred before this monitored period.
           example: 120
     CheckSimSwapInfo:
@@ -264,31 +270,38 @@ components:
   examples:
     RETRIEVE_DATE:
       summary: Lastest SIM swap date is send back
+      description: Lastest SIM swap date is send back
       value:
         latestSimChange: 2024-09-18T07:37:53.471829447Z
     RETRIEVE_MONITORED_NULL:
       summary: Only null value is retrieved
+      description: As latest sim swap date is too long ago, null value is sent back
       value:
         latestSimChange: null
     RETRIEVE_MONITORED_PERIOD:
       summary: null is send back for the date but a monitoredPeriod is provided
+      description: As latest sim swap date is too long ago, null value is sent back with a monitored period
       value:
         latestSimChange: null
         monitoredPeriod: 120
     CHECK_2LEGS:
       summary: Check request without 3-legged access tokens
+      description: Check request in 2-legs (with phoneNumber in the request body)
       value:
         phoneNumber: "+346661113334"
         maxAge: 120
     CHECK_3LEGS:
       summary: Check request with 3-legged access tokens
+      description: Check request with 3-legged access tokens
       value:
         maxAge: 120
     RETRIEVE_2LEGS:
       summary: Retrieve request without 3-legged access tokens
+      description: Retrieve request in 2-legs (with phoneNumber in the request body)
       value:
         phoneNumber: "+346661113334"
     RETRIEVE_3LEGS:
       summary: Retrieve request with 3-legged access tokens
+      descriptions: Retrieve request with 3-legged access tokens
       value:
         {}
