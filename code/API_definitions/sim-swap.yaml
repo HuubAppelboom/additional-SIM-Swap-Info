@@ -12,7 +12,8 @@ info:
 
     The SIM Swap API can also be used to protect non-automated actions. For example, when a call center expert contacts a user to clarify or confirm a sensitive operation.
 
-    This API is used by an application to get information about a mobile line latest SIM swap. It can be easily integrated and used through this secured API and allows SPs (Service Provider) to get this information an easy & secured way. The API provides the following operations. An API provider is not expected to support all of them: the age-band operation is an alternative to exposing the exact SIM swap date, and support depends on the provider's available capabilities and commercial use case.
+    This API is used by an application to get information about a mobile line latest SIM swap date. It can be easily integrated and used through this secured API and allows SPs (Service Provider) to get this information an easy & secured way. The API provides management of 3 endpoints answering 3 distinct questions: 
+    An API provider is not expected to support all of them: the age-band operation is an alternative to exposing the exact SIM swap date, and support depends on the provider's available capabilities and commercial use case.
 
     * When did the last SIM swap occur?
     * Has a SIM swap occurred during last n hours?
@@ -37,38 +38,38 @@ info:
 
     - POST check: Checks if SIM swap has been performed during a past period (defined in the request with 'maxAge' attribute) for a given phone number.
 
-      - Note: In the specification of the API the 'maxAge' could be between 1 hour to 2400 hours. If this delay is not managed due to the operator's own privacy threshold (which in theory would likely be linked to local regulations in the country) and a request is performed with a value inferior to 2400 but superior to operator policy, then, an error `400 OUT_OF_RANGE `is expected with an explicit message to explain the limitation like `Check monitor period could not exceed local regulations (30 days)`.
+      - Note: In the specification of the API the 'maxAge' could be between 1 hour to 2400 hours. If this delay is not managed due to the operator's own privacy threshold (which in theory would likely be linked to local regulations in the country) and a request is performed with a value inferior to 2400 but superior to operator policy, then,  an error `400 OUT_OF_RANGE `is expected with an explicit message to explain the limitation like `Check monitor period could not exceed local regulations (30 days)`.
 
     - POST retrieve-age-band : Returns a standardized `simSwapAgeBand` value indicating how recently a SIM swap occurred, expressed as a time band. This operation is an alternative way to expose SIM swap recency for API providers that do not expose the exact SIM swap date; it does not return the actual SIM swap date. This operation is OPTIONAL. A provider that does not implement it returns `501 NOT_IMPLEMENTED`; consumers can then fall back to `check` and/or `retrieve-date`. The returned value is a technical network signal indicating recency; it is not a customer-side risk score or scoring model. Consuming parties apply their own decisioning outside the API contract.
 
       - Definition of `d`:
-    - `d` is the elapsed time between the most recent SIM swap event and the instant the request is processed, both evaluated in UTC. One day (`d`) is a fixed 24-hour period; `1y`, `2y` and `3y` are computed as 365, 730 and 1095 days respectively (fixed-length, leap years not applied) to guarantee that two providers assign the same band to the same event.
+        - `d` is the elapsed time between the most recent SIM swap event and the instant the request is processed, both evaluated in UTC. One day (`d`) is a fixed 24-hour period; `1y`, `2y` and `3y` are computed as 365, 730 and 1095 days respectively (fixed-length, leap years not applied) to guarantee that two providers assign the same band to the same event.
 
 
       - Standardized age-band value mapping:
-    - Values `1` through `17` represent increasing recency bands for the most recent SIM swap event (`1` = most recent, `17` = oldest). Value `111` indicates that the provider positively confirms a SIM swap has never happened for the subscriber and the number has never been ported — this includes a valid line that was only ever activated and never swapped. (Porting also carries a SIM swap risk and is treated as a SIM swap event.) `111` is a sentinel meaning "no SIM swap has ever occurred"; it is NOT a position in the recency sequence and MUST NOT be interpreted as "older than band 17". This operation is OPTIONAL: a provider that does not implement it returns `501 NOT_IMPLEMENTED`. A provider that exposes this operation MUST support the complete standardized band model; partial support is not permitted, as it would create false interoperability. If the service is structurally not applicable for the provided identifier — including a valid subscriber for whom no real-time profile is available to determine the band — it returns `422 SERVICE_NOT_APPLICABLE`. Transient backend or data-source failures MUST be returned as standard server-side errors (5xx), never as `422`.<br>See table below for values and their meaning:
+        - Values `1` through `17` represent increasing recency bands for the most recent SIM swap event (`1` = most recent, `17` = oldest). Value `111` indicates that the provider positively confirms a SIM swap has never happened for the subscriber and the number has never been ported — this includes a valid line that was only ever activated and never swapped. (Porting also carries a SIM swap risk and is treated as a SIM swap event.) `111` is a sentinel meaning "no SIM swap has ever occurred"; it is NOT a position in the recency sequence and MUST NOT be interpreted as "older than band 17". This operation is OPTIONAL: a provider that does not implement it returns `501 NOT_IMPLEMENTED`. A provider that exposes this operation MUST support the complete standardized band model; partial support is not permitted, as it would create false interoperability. If the service is structurally not applicable for the provided identifier — including a valid subscriber for whom no real-time profile is available to determine the band — it returns `422 SERVICE_NOT_APPLICABLE`. Transient backend or data-source failures MUST be returned as standard server-side errors (5xx), never as `422`.<br>See table below for values and their meaning:
 
-    | Value | Meaning |
-    | --- | --- |
-    | 1 | 0h ≤ d < 4h |
-    | 2 | 4h ≤ d < 12h |
-    | 3 | 12h ≤ d < 1d |
-    | 4 | 1d ≤ d < 2d |
-    | 5 | 2d ≤ d < 3d |
-    | 6 | 3d ≤ d < 4d |
-    | 7 | 4d ≤ d < 5d |
-    | 8 | 5d ≤ d < 7d |
-    | 9 | 7d ≤ d < 14d |
-    | 10 | 14d ≤ d < 30d |
-    | 11 | 30d ≤ d < 60d |
-    | 12 | 60d ≤ d < 90d |
-    | 13 | 90d ≤ d < 180d |
-    | 14 | 180d ≤ d < 1y |
-    | 15 | 1y ≤ d < 2y |
-    | 16 | 2y ≤ d < 3y |
-    | 17 | 3y+ |
-    | 111 | SIM swap has never happened; positively confirmed (and never ported). Sentinel, not an ordinal band |  <br>
-
+        | Value | Meaning |
+        | --- | --- |
+        | 1 | 0h ≤ d < 4h |
+        | 2 | 4h ≤ d < 12h |
+        | 3 | 12h ≤ d < 1d |
+        | 4 | 1d ≤ d < 2d |
+        | 5 | 2d ≤ d < 3d |
+        | 6 | 3d ≤ d < 4d |
+        | 7 | 4d ≤ d < 5d |
+        | 8 | 5d ≤ d < 7d |
+        | 9 | 7d ≤ d < 14d |
+        | 10 | 14d ≤ d < 30d |
+        | 11 | 30d ≤ d < 60d |
+        | 12 | 60d ≤ d < 90d |
+        | 13 | 90d ≤ d < 180d |
+        | 14 | 180d ≤ d < 1y |
+        | 15 | 1y ≤ d < 2y |
+        | 16 | 2y ≤ d < 3y |
+        | 17 | 3y+ |
+        | 111 | SIM swap has never happened; positively confirmed (and never ported). Sentinel, not an ordinal band |
+    
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
     # Authorization and authentication
 
@@ -93,6 +94,7 @@ info:
 
     - If the phoneNumber can be identified from the access token and the optional `phoneNumber` identifier is also included in the request, then the server will return an error with the `422 UNNECESSARY_IDENTIFIER` error code. This will be the case even if the same device is identified by these two methods, as the server is unable to make this comparison.
 
+    <!-- CAMARA:MANDATORY:additional-error-responses:BEGIN -->
     - `/retrieve-age-band` is an OPTIONAL operation. A provider that does not implement it MUST return `501 NOT_IMPLEMENTED` so that a consumer receives a clear, interoperable signal (rather than a `404` or undefined behaviour) and can fall back to `/check` and/or `/retrieve-date`.
 
     - A provider that exposes `/retrieve-age-band` MUST support the complete standardized band model. Partial support is not permitted, as it would create false interoperability. If a provider cannot support the required granularity, or cannot determine the correct band due to historical retention limitations, it MUST either return `422 SERVICE_NOT_APPLICABLE` (structural non-applicability for the provided identifier) or not expose `/retrieve-age-band` at all.
@@ -101,12 +103,18 @@ info:
 
     # Additional CAMARA error responses
 
-      The list of error codes in this API specification is not exhaustive. Therefore the API specification may not document some non-mandatory error statuses as indicated in `CAMARA API Design Guide`. (Update SIM swap age-band API definition)
+      The list of error codes in this API specification is not exhaustive. Therefore the API specification MAY not document some non-mandatory error statuses as indicated in `CAMARA API Design Guide`.
 
       Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated to this API version for a complete list of error responses. The applicable Commonalities Release can be identified in the `API Readiness Checklist` document associated to this API version.
 
       As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error response if it is explicitly documented in the API.
- (Update SIM swap age-band API definition)
+    <!-- CAMARA:MANDATORY:additional-error-responses:END -->
+
+    <!-- CAMARA:MANDATORY:request-body-strictness:BEGIN -->
+    # Request body strictness
+
+    This API rejects requests with JSON request bodies that contain properties not declared in this specification, at any nesting level. Unknown properties result in a `400 INVALID_ARGUMENT` response.
+    <!-- CAMARA:MANDATORY:request-body-strictness:END -->
 
     # Further info and support
 
@@ -240,11 +248,9 @@ paths:
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic422"
         "429":
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
-  # Alternative operation: exposes SIM swap recency as a time band for providers that do not expose the exact SIM swap date. 
-  # Support is optional and provider-dependent. 
-          $ref: "#/components/responses/Generic429"
+
   # Alternative operation: exposes SIM swap recency as a time band for providers that do not expose the exact SIM swap date.
-  # Support is optional and provider-dependent. (Update SIM swap age-band API definition)
+  # Support is optional and provider-dependent. 
   # Returns the age-band value only.
   /retrieve-age-band:
     post:
@@ -716,7 +722,8 @@ components:
       description: Retrieve request with 3-legged access tokens
       value:
         {}
-    AGEBAND_2LEGS:
+    
+AGEBAND_2LEGS:
       summary: Age band request without 3-legged access tokens
       value:
         phoneNumber: "+346661113334"
