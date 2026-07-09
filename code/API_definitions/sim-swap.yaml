@@ -722,11 +722,10 @@ components:
       description: Retrieve request with 3-legged access tokens
       value:
         {}
-    
-AGEBAND_2LEGS:
-      summary: Age band request without 3-legged access tokens
-      value:
-        phoneNumber: "+346661113334"
+    AGEBAND_2LEGS:
+          summary: Age band request without 3-legged access tokens
+          value:
+            phoneNumber: "+346661113334"
     AGEBAND_3LEGS:
       summary: Age band request with 3-legged access tokens
       value: {}
