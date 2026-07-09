@@ -141,6 +141,8 @@ tags:
     description: operation to retrieve latest SIM swap change date
   - name: Check SIM Swap
     description: operation to perform a sim swap check for a past period
+  - name: Retrieve SIM swap age band
+    description: operation to retrieve a standardized time-band indication of how recently a SIM swap occurred, as an alternative to the exact SIM swap date
 paths:
   /retrieve-date:
     post:
