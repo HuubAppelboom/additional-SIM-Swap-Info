@@ -42,7 +42,7 @@ info:
     
     - simType : what type of SIM the phone number is currently associated with (either an eSIM or a physical SIM)
     
-    - directTransfer : whether the SIM was directly transferred between devices (without the user contacting the Telecom Operator) or not
+    - assuredTransfer : the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device, for example by Apple eSIM Quick Transfer or Android eSIM Transfer functionality
       
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
     # Authorization and authentication
@@ -245,9 +245,9 @@ components:
           maxLength: 4
           enum: [eSIM, pSIM]
           description: The type of SIM that is currently active, either an eSIM or a physical SIM card
-        directTransfer:
+        assuredTransfer:
           type: boolean
-          description: Indicates whether the SIM was directly transferred between devices (without the user contacting the Telecom Operator) or not
+          description: Indicates whether the SIM swap was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device
     CheckSimSwapInfo:
       type: object
       description: Definition of the data that can be returned in the response body for check operation
@@ -263,9 +263,9 @@ components:
           maxLength: 4
           enum: [eSIM, pSIM]
           description: The type of SIM that is currently active, either an eSIM or a physical SIM card
-        directTransfer:
+        assuredTransfer:
           type: boolean
-          description: Indicates whether the SIM was directly transferred between devices (without the user contacting the Telecom Operator) or not   
+          description: Indicates whether the SIM swap was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device
     PhoneNumber:
       $ref: "../common/CAMARA_common.yaml#/components/schemas/PhoneNumber"
     CreateCheckSimSwap:
