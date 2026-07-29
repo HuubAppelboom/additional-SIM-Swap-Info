@@ -63,6 +63,28 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     And the response property "$.latestSimChange" is null
     And the response optionally contains the property "$.monitoredPeriod" with the value of monitored time frame (in days) supported by the MNO
 
+  # This scenario applies when the returned information includes the eSIM type and assurance of the transfer
+  @retrieve_sim_swap_date_6_optional_sim_swap_information_present
+  Scenario: Retrieves SIM swap date for a valid SIM swap, new SIM is an eSIM and it is an assured transfer proces
+    Given a valid phone number identified by the token or provided in the request body
+    And the SIM for this phone number has been swapped before the limited history window threshold
+    When the request "retrieveSimSwapDate" is sent
+    Then the response status code is 200
+    And the response property "$.latestSimChange" is null
+    And the response optionally contains the property "$.simType" is "eSIM"
+    And the response optionally contains the property "$.assuredTransfer" is True
+
+ # This scenario applies when the returned information includes the physical SIM type and no assurance of the transfer
+  @retrieve_sim_swap_date_7_optional_sim_swap_information_present
+  Scenario: Retrieves SIM swap date for a valid SIM swap, new SIM is an physical SIM and it is not an assured transfer proces
+    Given a valid phone number identified by the token or provided in the request body
+    And the SIM for this phone number has been swapped before the limited history window threshold
+    When the request "retrieveSimSwapDate" is sent
+    Then the response status code is 200
+    And the response property "$.latestSimChange" is null
+    And the response optionally contains the property "$.simType" is "pSIM"
+    And the response optionally contains the property "$.assuredTransfer" is False
+
   # Generic 401 errors
 
   @retrieve_sim_swap_date_401.1_no_authorization_header
