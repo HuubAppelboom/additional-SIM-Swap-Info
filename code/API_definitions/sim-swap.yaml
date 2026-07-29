@@ -714,7 +714,7 @@ components:
                 code: NOT_IMPLEMENTED
                 message: This functionality is not implemented by the provider.
   examples:
-    RETRIEVE_DATE:
+    RETRIEVE_DATE_WITHOUT_SYM_TYPE_AND_TRANSER_INFORMATION:
       summary: Lastest SIM swap date is send back
       description: Lastest SIM swap date is send back
       value:
@@ -730,6 +730,13 @@ components:
       value:
         latestSimChange: null
         monitoredPeriod: 120
+    RETRIEVE_DATE_WITH_SYM_TYPE_AND_TRANSER_INFORMATION:
+      summary: Lastest SIM swap date is send back including simType and assuredTransfer information
+      description: Lastest SIM swap date is send back, and the new sim is an eSIM generated in a process where the old SIM was confirmed to be present in proximity
+      value:
+        latestSimChange: 2024-09-18T07:37:53.471829447Z
+        simType: "eSIM"
+        assuredTransfer: true
     CHECK_2LEGS:
       summary: Check request without 3-legged access tokens
       description: Check request in 2-legs (with phoneNumber in the request body)
