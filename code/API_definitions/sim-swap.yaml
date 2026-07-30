@@ -50,7 +50,7 @@ info:
       - when assuredTransfer=true: the CSP knows the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device, for example by Apple eSIM Quick Transfer or Android eSIM Transfer functionality
       - when assuredTransfer=false: the CSP knows the SIM swap was not performed through such an assured transfer flow, for example after the SIM was lost or stolen.
       - if the CSP cannot determine this or does not support the attribute, the field should be omitted.
- 
+
     - POST retrieve-age-band : Returns a standardized `simSwapAgeBand` value indicating how recently a SIM swap occurred, expressed as a time band. This operation is an alternative way to expose SIM swap recency for API providers that do not expose the exact SIM swap date; it does not return the actual SIM swap date. This operation is OPTIONAL. A provider that does not implement it returns `501 NOT_IMPLEMENTED`; consumers can then fall back to `check` and/or `retrieve-date`. The returned value is a technical network signal indicating recency; it is not a customer-side risk score or scoring model. Consuming parties apply their own decisioning outside the API contract.
 
       - Definition of `d`:
