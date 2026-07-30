@@ -63,27 +63,61 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     And the response property "$.latestSimChange" is null
     And the response optionally contains the property "$.monitoredPeriod" with the value of monitored time frame (in days) supported by the MNO
 
-  # This scenario applies when the returned information includes the eSIM type and assurance of the transfer
-  @retrieve_sim_swap_date_6_optional_sim_swap_information_present
-  Scenario: Retrieves SIM swap date for a valid SIM swap, new SIM is an eSIM and it is an assured transfer proces
+  # This scenario applies when the returned information includes the eSIM type
+  # and assurance of the transfer.
+  @retrieve_sim_swap_date_6_optional_sim_swap_information_esim_assured
+  Scenario: Retrieves SIM swap date with eSIM and assured transfer information
     Given a valid phone number identified by the token or provided in the request body
-    And the SIM for this phone number has been swapped before the limited history window threshold
+    And the SIM for this phone number has been swapped within the retrievable history window
+    And the SIM type associated with the relevant SIM swap event is "eSIM"
+    And the relevant SIM swap event was performed through an assured transfer flow
     When the request "retrieveSimSwapDate" is sent
     Then the response status code is 200
-    And the response property "$.latestSimChange" is null
-    And the response optionally contains the property "$.simType" is "eSIM"
-    And the response optionally contains the property "$.assuredTransfer" is True
+    And the response property "$.latestSimChange" contains a valid timestamp
+    And the response optionally contains the property "$.simType" with value "eSIM"
+    And the response optionally contains the property "$.assuredTransfer" with value true
+    
+  # This scenario applies when the returned information includes the physical SIM type
+  # and the transfer is known not to be assured.
+  @retrieve_sim_swap_date_7_optional_sim_swap_information_psim_not_assured
+  Scenario: Retrieves SIM swap date with pSIM and non-assured transfer information
+    Given a valid phone number identified by the token or provided in the request body
+    And the SIM for this phone number has been swapped within the retrievable history window
+    And the SIM type associated with the relevant SIM swap event is "pSIM"
+    And the relevant SIM swap event was not performed through an assured transfer flow
+    When the request "retrieveSimSwapDate" is sent
+    Then the response status code is 200
+    And the response property "$.latestSimChange" contains a valid timestamp
+    And the response optionally contains the property "$.simType" with value "pSIM"
+    And the response optionally contains the property "$.assuredTransfer" with value false
 
- # This scenario applies when the returned information includes the physical SIM type and no assurance of the transfer
-  @retrieve_sim_swap_date_7_optional_sim_swap_information_present
-  Scenario: Retrieves SIM swap date for a valid SIM swap, new SIM is an physical SIM and it is not an assured transfer proces
+
+# This scenario applies when a SIM swap is detected and optional SIM information is returned.
+  @check_sim_swap_8_optional_sim_swap_information_esim_assured
+  Scenario: Check SIM swap with eSIM and assured transfer information
     Given a valid phone number identified by the token or provided in the request body
-    And the SIM for this phone number has been swapped before the limited history window threshold
-    When the request "retrieveSimSwapDate" is sent
+    And the SIM for this phone number has been swapped within the requested maxAge window
+    And the SIM type associated with the latest SIM swap event within the maxAge window is "eSIM"
+    And the latest SIM swap event within the maxAge window was performed through an assured transfer flow
+    When the request "checkSimSwap" is sent
     Then the response status code is 200
-    And the response property "$.latestSimChange" is null
-    And the response optionally contains the property "$.simType" is "pSIM"
-    And the response optionally contains the property "$.assuredTransfer" is False
+    And the value of response property "$.swapped" == true
+    And the response optionally contains the property "$.simType" with value "eSIM"
+    And the response optionally contains the property "$.assuredTransfer" with value true
+
+# This scenario applies when a SIM swap is detected and optional SIM information is returned.
+  @check_sim_swap_9_optional_sim_swap_information_psim_not_assured
+  Scenario: Check SIM swap with pSIM and non-assured transfer information
+    Given a valid phone number identified by the token or provided in the request body
+    And the SIM for this phone number has been swapped within the requested maxAge window
+    And the SIM type associated with the latest SIM swap event within the maxAge window is "pSIM"
+    And the latest SIM swap event within the maxAge window was not performed through an assured transfer flow
+    When the request "checkSimSwap" is sent
+    Then the response status code is 200
+    And the value of response property "$.swapped" == true
+    And the response optionally contains the property "$.simType" with value "pSIM"
+    And the response optionally contains the property "$.assuredTransfer" with value false
+
 
   # Generic 401 errors
 
