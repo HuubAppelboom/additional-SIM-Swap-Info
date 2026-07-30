@@ -251,6 +251,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CheckSimSwapInfo"
+              examples:
+                CHECK_SIM_SWAP:
+                  $ref: "#/components/examples/CHECK_SIM_SWAP"
+                CHECK_SIM_SWAP_WITH_OPTIONAL_SIM_INFORMATION:
+                  $ref: "#/components/examples/CHECK_SIM_SWAP_WITH_OPTIONAL_SIM_INFORMATION"
         "400":
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
         "401":
@@ -739,6 +744,12 @@ components:
         latestSimChange: 2024-09-18T07:37:53.471829447Z
         simType: "eSIM"
         assuredTransfer: true
+    CHECK_SIM_SWAP:
+      summary: SIM swap detected
+      description: >
+        A SIM swap is detected within the requested maxAge window.
+      value:
+        swapped: true
     CHECK_SIM_SWAP_WITH_OPTIONAL_SIM_INFORMATION:
       summary: SIM swap detected with optional SIM information
       description: >
