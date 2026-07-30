@@ -194,12 +194,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/SimSwapInfo"
               examples:
-                RETRIEVE_DATE:
-                  $ref: "#/components/examples/RETRIEVE_DATE"
+                RETRIEVE_DATE_WITHOUT_SYM_TYPE_AND_TRANSER_INFORMATION:
+                  $ref: "#/components/examples/RETRIEVE_DATE_WITHOUT_SYM_TYPE_AND_TRANSER_INFORMATION"
                 RETRIEVE_MONITORED_PERIOD:
                   $ref: "#/components/examples/RETRIEVE_MONITORED_PERIOD"
                 RETRIEVE_MONITORED_NULL:
                   $ref: "#/components/examples/RETRIEVE_MONITORED_NULL"
+                RETRIEVE_DATE_WITH_SYM_TYPE_AND_TRANSER_INFORMATION:  
+                  $ref: "#/components/examples/RETRIEVE_DATE_WITH_SYM_TYPE_AND_TRANSER_INFORMATION"
         "400":
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
         "401":
