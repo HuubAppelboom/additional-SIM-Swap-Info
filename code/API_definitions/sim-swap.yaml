@@ -12,7 +12,7 @@ info:
 
     The SIM Swap API can also be used to protect non-automated actions. For example, when a call center expert contacts a user to clarify or confirm a sensitive operation.
 
-    This API is used by an application to get information about a mobile line latest SIM swap date. It can be easily integrated and used through this secured API and allows SPs (Service Provider) to get this information an easy & secured way. The API provides management of 3 endpoints answering 3 distinct questions: 
+    This API is used by an application to get information about a mobile line latest SIM swap date. It can be easily integrated and used through this secured API and allows SPs (Service Provider) to get this information an easy & secured way. The API provides management of 3 endpoints answering 3 distinct questions:
     An API provider is not expected to support all of them: the age-band operation is an alternative to exposing the exact SIM swap date, and support depends on the provider's available capabilities and commercial use case.
 
     * When did the last SIM swap occur?
@@ -41,16 +41,16 @@ info:
       - Note: In the specification of the API the 'maxAge' could be between 1 hour to 2400 hours. If this delay is not managed due to the operator's own privacy threshold (which in theory would likely be linked to local regulations in the country) and a request is performed with a value inferior to 2400 but superior to operator policy, then,  an error `400 OUT_OF_RANGE `is expected with an explicit message to explain the limitation like `Check monitor period could not exceed local regulations (30 days)`.
 
     Additional information can optionally be returned:
-    
+
     - simType : what type of SIM (eSIM of physical SIM) the phone number is associated with after the relevant SIM Swap event:
       - for /check, the latest swap within the requested maxAge window;
       - for /retrieve-date, the event behind latestSimChange.
-    
+
     - assuredTransfer : indicator of what level assurance / risk can be expected to be associated with the SIM Swap event
       - when assuredTransfer=true: the CSP knows the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device, for example by Apple eSIM Quick Transfer or Android eSIM Transfer functionality
       - when assuredTransfer=false: the CSP knows the SIM swap was not performed through such an assured transfer flow, for example after the SIM was lost or stolen.
       - if the CSP cannot determine this or does not support the attribute, the field should be omitted.
-        
+ 
     - POST retrieve-age-band : Returns a standardized `simSwapAgeBand` value indicating how recently a SIM swap occurred, expressed as a time band. This operation is an alternative way to expose SIM swap recency for API providers that do not expose the exact SIM swap date; it does not return the actual SIM swap date. This operation is OPTIONAL. A provider that does not implement it returns `501 NOT_IMPLEMENTED`; consumers can then fall back to `check` and/or `retrieve-date`. The returned value is a technical network signal indicating recency; it is not a customer-side risk score or scoring model. Consuming parties apply their own decisioning outside the API contract.
 
       - Definition of `d`:
@@ -80,7 +80,7 @@ info:
         | 16 | 2y ≤ d < 3y |
         | 17 | 3y+ |
         | 111 | SIM swap has never happened; positively confirmed (and never ported). Sentinel, not an ordinal band |
-    
+
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
     # Authorization and authentication
 
@@ -200,7 +200,7 @@ paths:
                   $ref: "#/components/examples/RETRIEVE_MONITORED_PERIOD"
                 RETRIEVE_MONITORED_NULL:
                   $ref: "#/components/examples/RETRIEVE_MONITORED_NULL"
-                RETRIEVE_DATE_WITH_OPTIONAL_SIM_INFORMATION:  
+                RETRIEVE_DATE_WITH_OPTIONAL_SIM_INFORMATION:
                   $ref: "#/components/examples/RETRIEVE_DATE_WITH_OPTIONAL_SIM_INFORMATION"
         "400":
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
@@ -270,7 +270,7 @@ paths:
           $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
 
   # Alternative operation: exposes SIM swap recency as a time band for providers that do not expose the exact SIM swap date.
-  # Support is optional and provider-dependent. 
+  # Support is optional and provider-dependent.
   # Returns the age-band value only.
   /retrieve-age-band:
     post:
@@ -758,7 +758,7 @@ components:
       value:
         swapped: true
         simType: "pSIM"
-        assuredTransfer: false       
+        assuredTransfer: false
     CHECK_2LEGS:
       summary: Check request without 3-legged access tokens
       description: Check request in 2-legs (with phoneNumber in the request body)
