@@ -40,7 +40,7 @@ info:
 
     Additional information can optionally be returned:
 
-    - simType : what type of SIM (eSIM of physical SIM) the phone number is associated with after the relevant SIM Swap event:
+    - simType : what type of SIM (eSIM or physical SIM) the phone number is associated with after the relevant SIM Swap event:
       - for /check, the latest swap within the requested maxAge window;
       - for /retrieve-date, the event behind latestSimChange.
 
