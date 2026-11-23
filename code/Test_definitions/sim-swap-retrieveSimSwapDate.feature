@@ -92,32 +92,7 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     And the response optionally contains the property "$.simType" with value "pSIM"
     And the response optionally contains the property "$.assuredTransfer" with value false
 
-  # This scenario applies when a SIM swap is detected and optional SIM information is returned.
-  @check_sim_swap_8_optional_sim_swap_information_esim_assured
-  Scenario: Check SIM swap with eSIM and assured transfer information
-    Given a valid phone number identified by the token or provided in the request body
-    And the SIM for this phone number has been swapped within the requested maxAge window
-    And the SIM type associated with the latest SIM swap event within the maxAge window is "eSIM"
-    And the latest SIM swap event within the maxAge window was performed through an assured transfer flow
-    When the request "checkSimSwap" is sent
-    Then the response status code is 200
-    And the value of response property "$.swapped" == true
-    And the response optionally contains the property "$.simType" with value "eSIM"
-    And the response optionally contains the property "$.assuredTransfer" with value true
-
-  # This scenario applies when a SIM swap is detected and optional SIM information is returned.
-  @check_sim_swap_9_optional_sim_swap_information_psim_not_assured
-  Scenario: Check SIM swap with pSIM and non-assured transfer information
-    Given a valid phone number identified by the token or provided in the request body
-    And the SIM for this phone number has been swapped within the requested maxAge window
-    And the SIM type associated with the latest SIM swap event within the maxAge window is "pSIM"
-    And the latest SIM swap event within the maxAge window was not performed through an assured transfer flow
-    When the request "checkSimSwap" is sent
-    Then the response status code is 200
-    And the value of response property "$.swapped" == true
-    And the response optionally contains the property "$.simType" with value "pSIM"
-    And the response optionally contains the property "$.assuredTransfer" with value false
-
+ 
   # Generic 401 errors
   @retrieve_sim_swap_date_401.1_no_authorization_header
   Scenario: No Authorization header
