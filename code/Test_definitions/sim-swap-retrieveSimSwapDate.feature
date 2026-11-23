@@ -61,6 +61,8 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     Then the response status code is 200
     And the response property "$.latestSimChange" is null
     And the response optionally contains the property "$.monitoredPeriod" with the value of monitored time frame (in days) supported by the MNO
+    And the response does not contain the property "$.simType"
+    And the response does not contain the property "$.assuredTransfer"
 
   # This scenario applies when the returned information includes the eSIM type
   # and assurance of the transfer.
