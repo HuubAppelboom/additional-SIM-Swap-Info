@@ -47,7 +47,10 @@ info:
     - assuredTransfer : indicates whether the swap was performed through a CSP-verified transfer flow that required possession or control of the previously active SIM or a trusted device.
       - when `assuredTransfer=true`: the CSP knows that the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession or control of the previously active SIM or a trusted device. It is only applicable when `simType` is `eSIM`. Examples (non-normative): Apple eSIM Quick Transfer or Android eSIM Transfer. A transfer that relies solely on a one-time code sent to the previously active SIM or phone number MUST NOT be reported as an assured transfer.
       - when `assuredTransfer=false`: the CSP could not confirm that the SIM swap was performed through such an assured transfer flow.
-      - if the CSP cannot determine this or does not support the attribute, the field should be omitted.
+      - if the CSP cannot determine this, does not support the attribute or is not permitted to disclose it, the field MUST be omitted. API consumers MUST treat an omitted `assuredTransfer` as unknown, not as `false`.
+      - `assuredTransfer=true` is not a guarantee that the SIM swap is legitimate. The risk assessment remains the responsibility of the API consumer.
+
+    Both `simType` and `assuredTransfer` refer only to the relevant SIM swap event and MUST be omitted when no SIM swap event is returned (`swapped` is `false` in /check, `latestSimChange` is `null` in /retrieve-date). When `latestSimChange` is the SIM activation date, `assuredTransfer` MUST be omitted.
 
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
 
