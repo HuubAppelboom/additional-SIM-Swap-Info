@@ -44,7 +44,7 @@ info:
       - for /check, the latest swap within the requested maxAge window;
       - for /retrieve-date, the event behind latestSimChange.
 
-    - assuredTransfer : indicator of what level assurance / risk can be expected to be associated with the SIM Swap event
+    - assuredTransfer : indicates whether the swap was performed through a CSP-verified transfer flow that required possession or control of the previously active SIM or a trusted device.
       - when assuredTransfer=true: the CSP knows the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device, for example by Apple eSIM Quick Transfer or Android eSIM Transfer functionality
       - when assuredTransfer=false: the CSP knows the SIM swap was not performed through such an assured transfer flow, for example after the SIM was lost or stolen.
       - if the CSP cannot determine this or does not support the attribute, the field should be omitted.
