@@ -46,7 +46,7 @@ info:
 
     - assuredTransfer : indicates whether the swap was performed through a CSP-verified transfer flow that required possession or control of the previously active SIM or a trusted device.
       - when `assuredTransfer=true`: the CSP knows that the SIM swap to an eSIM was performed through a CSP-verified transfer flow requiring possession or control of the previously active SIM or a trusted device. It is only applicable when `simType` is `eSIM`. Examples (non-normative): Apple eSIM Quick Transfer or Android eSIM Transfer. A transfer that relies solely on a one-time code sent to the previously active SIM or phone number MUST NOT be reported as an assured transfer.
-      - when assuredTransfer=false: the CSP knows the SIM swap was not performed through such an assured transfer flow, for example after the SIM was lost or stolen.
+      - when `assuredTransfer=false`: the CSP could not confirm that the SIM swap was performed through such an assured transfer flow.
       - if the CSP cannot determine this or does not support the attribute, the field should be omitted.
 
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
