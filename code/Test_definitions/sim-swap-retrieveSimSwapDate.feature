@@ -64,8 +64,8 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     And the response does not contain the property "$.simType"
     And the response does not contain the property "$.assuredTransfer"
 
-  # This scenario applies when the returned information includes the eSIM type
-  # and assurance of the transfer.
+  # This scenario applies only if the API Provider supports and returns the optional SIM information.
+  # The returned information includes the eSIM type and the assurance of the transfer.
   @retrieve_sim_swap_date_6_optional_sim_swap_information_esim_assured
   Scenario: Retrieves SIM swap date with eSIM and assured transfer information
     Given a valid phone number identified by the token or provided in the request body
