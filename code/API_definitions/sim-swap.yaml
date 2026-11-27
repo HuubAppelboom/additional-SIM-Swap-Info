@@ -286,7 +286,8 @@ components:
           type: string
           maxLength: 4
           enum: [eSIM, pSIM]
-          description: The type of SIM that is currently active, either an eSIM or a physical SIM card
+          description: Type of the SIM associated with the phone number as a result of the relevant SIM swap event, that is, the latest SIM swap within the requested `maxAge` window. It is omitted when `swapped` is `false` or when not available.
+          example: eSIM
         assuredTransfer:
           type: boolean
           description: Indicates whether the SIM swap was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device
