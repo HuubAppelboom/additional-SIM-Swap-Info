@@ -290,7 +290,8 @@ components:
           example: eSIM
         assuredTransfer:
           type: boolean
-          description: Indicates whether the SIM swap was performed through a CSP-verified transfer flow requiring possession/control of the previously active SIM or trusted device
+          description: Indicates whether the relevant SIM swap event (the latest one within the requested `maxAge` window) was performed through a CSP-verified transfer flow requiring possession or control of the previously active SIM or a trusted device. It is only applicable when `simType` is `eSIM`. It is omitted when `swapped` is `false`, or when the CSP cannot determine it, does not support it or is not permitted to disclose it, and an omitted value means unknown. A value of `true` is not a guarantee that the SIM swap is legitimate.
+          example: true
     PhoneNumber:
       $ref: "../common/CAMARA_common.yaml#/components/schemas/PhoneNumber"
     CreateCheckSimSwap:
