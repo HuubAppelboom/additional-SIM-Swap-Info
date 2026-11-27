@@ -51,6 +51,8 @@ Feature: CAMARA SIM Swap API, vwip - Operation retrieveSimSwapDate
     When the request "retrieveSimSwapDate" is sent
     Then the response status code is 200
     And the response property "$.latestSimChange" is null
+    And the response does not contain the property "$.simType"
+    And the response does not contain the property "$.assuredTransfer"
 
   # This scenario applies when there is a local regulation with a time limitation on the information that can be returned
   @retrieve_sim_swap_date_5_no_sim_swap_or_activation_date_due_to_legal_constrain
