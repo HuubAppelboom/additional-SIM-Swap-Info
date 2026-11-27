@@ -333,8 +333,8 @@ components:
         latestSimChange: null
         monitoredPeriod: 120
     RETRIEVE_DATE_WITH_OPTIONAL_SIM_INFORMATION:
-      summary: Lastest SIM swap date is send back including simType and assuredTransfer information
-      description: Lastest SIM swap date is send back, and the new sim is an eSIM generated in a process where the old SIM was confirmed to be present in proximity
+      summary: Latest SIM swap date is sent back including simType and assuredTransfer information
+      description: Latest SIM swap date is sent back, and the new SIM is an eSIM created through a transfer flow that required possession or control of the previously active SIM or a trusted device
       value:
         latestSimChange: 2024-09-18T07:37:53.471829447Z
         simType: "eSIM"
